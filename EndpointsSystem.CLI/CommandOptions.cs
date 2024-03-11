@@ -1,15 +1,16 @@
 ﻿using EndpointsSystem.CLI.Commands.Base;
+using EndpointsSystem.CLI.Commands.Enums;
 using System.Reflection;
 
 namespace EndpointsSystem.CLI
 {
     public class CommandOptions
     {
-        public List<BaseCommand> InitCommands()
+        public HashSet<BaseCommand> InitCommands()
         {
             var commandsTypes = Assembly.GetExecutingAssembly().GetTypes().Where(x => !x.IsAbstract && x.IsSubclassOf(typeof(BaseCommand)));
 
-            List<BaseCommand> baseCommands = new List<BaseCommand>();
+            HashSet<BaseCommand> baseCommands = new HashSet<BaseCommand>();
             foreach (var commandType in commandsTypes)
             {
                 var command = Activator.CreateInstance(commandType) as BaseCommand;
@@ -19,7 +20,7 @@ namespace EndpointsSystem.CLI
             return baseCommands;
         }
 
-        public void ListAllCommands(List<BaseCommand> commands)
+        public void ListAllCommands(HashSet<BaseCommand> commands)
         {
             foreach (var command in commands.OrderBy(x => x.Id))
             {
@@ -27,5 +28,17 @@ namespace EndpointsSystem.CLI
             }
         }
 
+        public EEndpointCommands? ReadInput()
+        {
+            var input = Console.ReadLine();
+            if (int.TryParse(input, out int result))
+            {
+                if (Enum.IsDefined(typeof(EEndpointCommands), result))
+                {
+                    return (EEndpointCommands)result;
+                }
+            }
+            return null;
+        }
     }
 }
