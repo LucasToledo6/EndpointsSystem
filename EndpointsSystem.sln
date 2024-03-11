@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointsSystem.CLI", "EndpointsSystem.CLI\EndpointsSystem.CLI.csproj", "{DFC63B02-0420-4383-8F32-DC7B48436792}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DFC63B02-0420-4383-8F32-DC7B48436792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC63B02-0420-4383-8F32-DC7B48436792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC63B02-0420-4383-8F32-DC7B48436792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC63B02-0420-4383-8F32-DC7B48436792}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CF7D4632-12B9-47B2-9D6F-3C5245C700E4}
+	EndGlobalSection
+EndGlobal
