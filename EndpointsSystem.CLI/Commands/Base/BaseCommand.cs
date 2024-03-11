@@ -1,23 +1,33 @@
-﻿namespace EndpointsSystem.CLI.Commands.Base
+﻿using EndpointsSystem.CLI.Commands.Enums;
+
+namespace EndpointsSystem.CLI.Commands.Base
 {
     public abstract class BaseCommand
     {
-        public abstract int Id { get; }
+        public abstract EEndpointCommands Id { get; }
         public abstract string Description { get; }
 
         public string CheckString()
         {
-            var input = Console.ReadLine() ?? "";
+            string input = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(input))
+            {
+                Console.WriteLine("Please, enter a valid input.");
+                return CheckString();
+            }
+
             return input;
         }
 
         public int CheckInt()
         {
-            var input = Console.ReadLine() ?? "";
-            var hasParsed = int.TryParse(input, out var parsed);
+            string input = Console.ReadLine();
+            bool hasParsed = int.TryParse(input, out var parsed);
+
             if (!hasParsed)
             {
-                Console.WriteLine("Please, input a valid number.");
+                Console.WriteLine("Please, enter a valid input.");
                 return CheckInt();
             }
 

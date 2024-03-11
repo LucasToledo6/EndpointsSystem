@@ -5,7 +5,7 @@ namespace EndpointsSystem.CLI.Commands
 {
     public class DeleteCommand : BaseCommand
     {
-        public override int Id => (int)EEndpointCommands.DeleteCommand;
+        public override EEndpointCommands Id => EEndpointCommands.DeleteCommand;
         public override string Description => "Delete an existing endpoint";
 
         public string Command()
