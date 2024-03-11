@@ -8,5 +8,11 @@ namespace EndpointsSystem.CLI.Commands
         public override int Id => (int)EEndpointCommands.ExitCommand;
 
         public override string Description => "Exit the system";
+
+        public string Command()
+        {
+            Console.WriteLine("Are you sure you want to exit the application?");
+            string confirmation = CheckString();
+        }
     }
 }

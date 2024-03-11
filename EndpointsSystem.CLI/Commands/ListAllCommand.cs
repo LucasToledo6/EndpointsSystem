@@ -8,5 +8,10 @@ namespace EndpointsSystem.CLI.Commands
         public override int Id => (int)EEndpointCommands.ListAllCommand;
 
         public override string Description => "List all endpoints";
+
+        public void Command()
+        {
+
+        }
     }
 }
