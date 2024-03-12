@@ -24,7 +24,7 @@ namespace EndpointsSystem.CLI
         {
             foreach (var command in commands.OrderBy(x => x.Id))
             {
-                Console.WriteLine($"{command.Id}) {command.Description}");
+                Console.WriteLine($"{(int)command.Id}) {command.Description}");
             }
         }
 

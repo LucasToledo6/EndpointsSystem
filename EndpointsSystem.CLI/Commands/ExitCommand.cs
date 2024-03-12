@@ -9,10 +9,25 @@ namespace EndpointsSystem.CLI.Commands
 
         public override string Description => "Exit the system";
 
-        public string Command()
+        public override async Task ExecuteCommand()
         {
-            Console.WriteLine("Are you sure you want to exit the application?");
+            string confirmation = ReadConfirmation();
+
+            if (!confirmation.Equals("y", StringComparison.CurrentCultureIgnoreCase))
+            {
+                Console.WriteLine("Exit command aborted.");
+                return;
+            }
+
+            Console.WriteLine("Exiting...");
+            Environment.Exit(0);
+        }
+
+        private string ReadConfirmation()
+        {
+            Console.WriteLine("Are you sure you want to exit the application? (y/N)");
             string confirmation = CheckString();
+            return confirmation;
         }
     }
 }
