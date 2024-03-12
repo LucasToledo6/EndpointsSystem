@@ -15,12 +15,13 @@ namespace EndpointsSystem.Data.Repository.Implementation
 
         public async Task Create(Endpoint endpoint)
         {
-            await _db.AddAsync(endpoint);
+            await _db.Endpoints.AddAsync(endpoint);
         }
 
-        //public void Update()
-        //{
-        //}
+        public async Task Update(Endpoint endpoint)
+        {
+            _db.Endpoints.Update(endpoint);
+        }
 
         //public void Delete()
         //{

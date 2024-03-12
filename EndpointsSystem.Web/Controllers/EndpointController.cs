@@ -1,4 +1,5 @@
-﻿using EndpointSystem.Application.Input.Model;
+﻿using EndpointsSystem.Domain.Enums;
+using EndpointSystem.Application.Input.Model;
 using EndpointSystem.Application.Services.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,25 @@ namespace EndpointsSystem.Web.Controllers
                 }
 
                 await _endpointService.CreateEndpoint(createCommandInput);
+                Console.WriteLine();
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unknown error has occurred.");
+            }
+        }
+
+        [HttpPut("EditEndpoint/{endpointSerialNumber}")]
+        public async Task<IActionResult> EditEndpoint([FromRoute] string endpointSerialNumber, [FromBody] ESwitchState switchState)
+        {
+            try
+            {
+                await _endpointService.EditEndpoint(endpointSerialNumber, switchState);
                 Console.WriteLine();
                 return Ok();
             }

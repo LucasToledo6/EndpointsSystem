@@ -1,4 +1,5 @@
-﻿using EndpointSystem.Application.DTO;
+﻿using EndpointsSystem.Domain.Enums;
+using EndpointSystem.Application.DTO;
 using EndpointSystem.Application.Input.Model;
 
 namespace EndpointSystem.Application.Services.Interfaces
@@ -6,6 +7,7 @@ namespace EndpointSystem.Application.Services.Interfaces
     public interface IEndpointService
     {
         public Task CreateEndpoint(CreateEndpointInput createEndpointInput);
+        public Task EditEndpoint(string endpointSerialNumber, ESwitchState switchState);
         public Task<EndpointDto> FindEndpoint(string endpointSerialNumber);
         public Task<List<EndpointDto>> ListAllEndpoints();
     }

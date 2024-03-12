@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EndpointsSystem.Data.Repository.Interface;
 using EndpointsSystem.Domain.Entities;
+using EndpointsSystem.Domain.Enums;
 using EndpointSystem.Application.DTO;
 using EndpointSystem.Application.Input.Model;
 using EndpointSystem.Application.Services.Interfaces;
@@ -32,6 +33,16 @@ namespace EndpointSystem.Application.Services.Implementation
             var endpoint = _mapper.Map<Endpoint>(createEndpointInput);
 
             await _endpointRepository.Create(endpoint);
+            await _endpointRepository.SaveAsync();
+        }
+
+        public async Task EditEndpoint(string endpointSerialNumber, ESwitchState switchState)
+        {
+            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber!);
+
+            existingEndpoint!.SwitchState = switchState;
+
+            await _endpointRepository.Update(existingEndpoint);
             await _endpointRepository.SaveAsync();
         }
 

@@ -15,7 +15,7 @@ namespace EndpointsSystem.CLI.Commands
         {
             string endpointSerialNumber = ReadEndpointSerialNumber();
 
-            var findEndpointResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/{endpointSerialNumber}");
+            var findEndpointResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/FindEndpoint/{endpointSerialNumber}");
             if (!findEndpointResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine("Endpoint was not found.");
@@ -23,7 +23,7 @@ namespace EndpointsSystem.CLI.Commands
             }
 
             ESwitchState newSwitchState = ReadNewSwitchState();
-            var editEndpointResponse = await _client.PutAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/{endpointSerialNumber}", newSwitchState);
+            var editEndpointResponse = await _client.PutAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/EditEndpoint/{endpointSerialNumber}", newSwitchState);
             if (!editEndpointResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine("The endpoint could not be edited.");
