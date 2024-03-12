@@ -1,4 +1,5 @@
 ﻿using EndpointSystem.Application.Input.Model;
+using EndpointSystem.Application.Services.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,14 @@ namespace EndpointsSystem.Web.Controllers
     public class EndpointController : ControllerBase
     {
         private readonly IValidator<CreateEndpointInput> _createEndpointInputValidator;
+        private readonly IEndpointService _endpointService;
 
-        public EndpointController(IValidator<CreateEndpointInput> createEndpointInputValidator)
+        public EndpointController(
+            IValidator<CreateEndpointInput> createEndpointInputValidator,
+            IEndpointService endpointService)
         {
             _createEndpointInputValidator = createEndpointInputValidator;
+            _endpointService = endpointService;
         }
 
         [HttpPost(nameof(CreateEndpoint))]
@@ -26,6 +31,8 @@ namespace EndpointsSystem.Web.Controllers
                 {
                     throw new ArgumentException("The created endpoint data was invalid.");
                 }
+
+                await _endpointService.CreateEndpoint(createCommandInput);
                 Console.WriteLine();
                 return Ok();
             }
@@ -33,7 +40,20 @@ namespace EndpointsSystem.Web.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unknown error has occurred.");
+            }
+        }
+
+        [HttpGet(nameof(ListAllEndpoints))]
+        public async Task<IActionResult> ListAllEndpoints()
+        {
+            try
+            {
+                return Ok(await _endpointService.ListAllEndpoints());
+            }
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unknown error has occurred.");
             }

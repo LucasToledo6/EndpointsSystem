@@ -6,6 +6,7 @@ namespace EndpointsSystem.Data.Repository.Interface
     {
         public Task Create(Endpoint endpoint);
         public Task<Endpoint?> GetEndpointBySerialNumberAsync(string endpointSerialNumber);
+        public Task<List<Endpoint>> GetAllEndpoints();
         public Task SaveAsync();
     }
 }

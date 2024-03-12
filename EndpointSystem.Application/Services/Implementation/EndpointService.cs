@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EndpointsSystem.Data.Repository.Interface;
 using EndpointsSystem.Domain.Entities;
+using EndpointSystem.Application.DTO;
 using EndpointSystem.Application.Input.Model;
 using EndpointSystem.Application.Services.Interfaces;
 
@@ -32,6 +33,14 @@ namespace EndpointSystem.Application.Services.Implementation
 
             await _endpointRepository.Create(endpoint);
             await _endpointRepository.SaveAsync();
+        }
+
+        public async Task<List<EndpointDto>> ListAllEndpoints()
+        {
+            List<EndpointDto> endpointList = (await _endpointRepository.GetAllEndpoints())
+                .Select(x => _mapper.Map<EndpointDto>(x)).ToList();
+
+            return endpointList;
         }
     }
 }

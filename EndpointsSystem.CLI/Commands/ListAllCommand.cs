@@ -13,7 +13,7 @@ namespace EndpointsSystem.CLI.Commands
 
         public override async Task ExecuteCommand()
         {
-            var listEndpointsResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint");
+            var listEndpointsResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/ListAllEndpoints");
             if (!listEndpointsResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine("Failed to retrieve endpoints.");

@@ -31,9 +31,10 @@ namespace EndpointsSystem.Data.Repository.Implementation
             return await _db.Endpoints.AsNoTracking().FirstOrDefaultAsync(x => x.EndpointSerialNumber == endpointSerialNumber);
         }
 
-        //public async Task<> GetAllEndpoints()
-        //{
-        //}
+        public async Task<List<Endpoint>> GetAllEndpoints()
+        {
+            return await _db.Endpoints.ToListAsync();
+        }
 
         public async Task SaveAsync()
         {
