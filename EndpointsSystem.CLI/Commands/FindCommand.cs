@@ -1,5 +1,6 @@
 ﻿using EndpointsSystem.CLI.Commands.Base;
 using EndpointsSystem.CLI.Commands.Enums;
+using EndpointsSystem.CLI.Commands.Outputs;
 using System.Text.Json;
 
 namespace EndpointsSystem.CLI.Commands

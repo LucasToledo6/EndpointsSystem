@@ -23,7 +23,7 @@ namespace EndpointsSystem.CLI.Commands
                 SwitchState = ReadSwitchState()
             };
 
-            var createEndpointResponse = await _client.PostAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/", createCommandEndpointInput);
+            var createEndpointResponse = await _client.PostAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/CreateEndpoint", createCommandEndpointInput);
 
             if (!createEndpointResponse.IsSuccessStatusCode)
             {
