@@ -31,14 +31,24 @@ namespace EndpointsSystem.CLI
         public EEndpointCommands? ReadInput()
         {
             var input = Console.ReadLine();
-            if (int.TryParse(input, out int result))
+            
+            if (!int.TryParse(input, out int result))
             {
-                if (Enum.IsDefined(typeof(EEndpointCommands), result))
-                {
-                    return (EEndpointCommands)result;
-                }
+                return null;
             }
-            return null;
+
+            if (!Enum.IsDefined(typeof(EEndpointCommands), result))
+            {
+                return null;
+            }
+
+            return (EEndpointCommands)result;
+        }
+
+        public async Task ExecuteCommand(HashSet<BaseCommand> commands, EEndpointCommands? input)
+        {
+            var command = commands.First(x => x.Id == input);
+            await command.ExecuteCommand();
         }
     }
 }

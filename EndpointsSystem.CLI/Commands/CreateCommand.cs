@@ -1,6 +1,8 @@
 ﻿using EndpointsSystem.CLI.Commands.Base;
 using EndpointsSystem.CLI.Commands.Enums;
 using EndpointsSystem.CLI.Commands.Extensions;
+using EndpointsSystem.CLI.Commands.Inputs;
+using System.Net.Http.Json;
 
 namespace EndpointsSystem.CLI.Commands
 {
@@ -10,13 +12,26 @@ namespace EndpointsSystem.CLI.Commands
 
         public override string Description => "Insert a new endpoint";
 
-        public void CreateCommandBody()
+        public override async Task ExecuteCommand()
         {
-            ReadEndpointSerialNumber();
-            ReadMeterModelId();
-            ReadMeterNumber();
-            ReadMeterFirmwareVersion();
-            ReadSwitchState();
+            CreateCommandInput createCommandEndpointInput = new CreateCommandInput
+            {
+                EndpointSerialNumber = ReadEndpointSerialNumber(),
+                MeterModelId = ReadMeterModelId(),
+                MeterNumber = ReadMeterNumber(),
+                MeterFirmwareVersion = ReadMeterFirmwareVersion(),
+                SwitchState = ReadSwitchState()
+            };
+
+            var createEndpointResponse = await _client.PostAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/", createCommandEndpointInput);
+
+            if (!createEndpointResponse.IsSuccessStatusCode)
+            {
+                Console.WriteLine("An error has occurred.");
+                return;
+            }
+
+            Console.WriteLine("Endpoint created successfully.");
         }
 
         private string ReadEndpointSerialNumber()
@@ -26,11 +41,22 @@ namespace EndpointsSystem.CLI.Commands
             return endpointSerialNumber;
         }
 
-        private int ReadMeterModelId()
+        private EMeterModelId ReadMeterModelId()
         {
-            Console.WriteLine("Please, enter the meter model ID.");
-            int meterModelId = CheckInt();
-            return meterModelId;
+            int meterModelId;
+
+            do
+            {
+                Console.WriteLine("Please, enter the meter model ID.");
+                Console.WriteLine("The available IDs are:");
+                foreach (var id in MeterModelIdExtensions.GetMeterModelIds())
+                {
+                    Console.WriteLine($"{(int)id}) {id}");
+                }
+                meterModelId = CheckInt();
+            } while (!MeterModelIdExtensions.IsMeterModelIdValid(meterModelId));
+
+            return (EMeterModelId)meterModelId;
         }
 
         private int ReadMeterNumber()
@@ -47,7 +73,7 @@ namespace EndpointsSystem.CLI.Commands
             return meterFirmwareVersion;
         }
 
-        private int ReadSwitchState()
+        private ESwitchState ReadSwitchState()
         {
             int switchState;
 
@@ -62,7 +88,7 @@ namespace EndpointsSystem.CLI.Commands
                 switchState = CheckInt();
             } while (!SwitchStateExtensions.IsSwitchStateValid(switchState));
 
-            return switchState;
+            return (ESwitchState) switchState;
         }
     }
 }

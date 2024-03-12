@@ -1,11 +1,21 @@
 ﻿using EndpointsSystem.CLI.Commands.Enums;
+using System.Net.Http.Headers;
 
 namespace EndpointsSystem.CLI.Commands.Base
 {
     public abstract class BaseCommand
     {
+        protected HttpClient _client;
         public abstract EEndpointCommands Id { get; }
         public abstract string Description { get; }
+
+        public BaseCommand()
+        {
+            _client = new HttpClient();
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        public abstract Task ExecuteCommand();
 
         public string CheckString()
         {

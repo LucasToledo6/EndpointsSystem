@@ -15,6 +15,9 @@ while (true)
         Console.Clear();
         continue;
     }
+
+    await commandOptions.ExecuteCommand(commands, input);
+    Console.WriteLine("Press any key to continue.");
     Console.ReadKey();
     Console.Clear();
 }
