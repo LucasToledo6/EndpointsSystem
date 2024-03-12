@@ -15,7 +15,7 @@ namespace EndpointsSystem.CLI.Commands
         {
             string endpointSerialNumber = ReadEndpointSerialNumber();
 
-            var findEndpointResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/{endpointSerialNumber}");
+            var findEndpointResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/FindEndpoint/{endpointSerialNumber}");
             if (!findEndpointResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine("Endpoint was not found.");

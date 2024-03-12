@@ -46,6 +46,19 @@ namespace EndpointsSystem.Web.Controllers
             }
         }
 
+        [HttpGet("FindEndpoint/{endpointSerialNumber}")]
+        public async Task<IActionResult> FindEndpoint([FromRoute] string endpointSerialNumber)
+        {
+            try
+            {
+                return Ok(await _endpointService.FindEndpoint(endpointSerialNumber!));
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unknown error has occurred.");
+            }
+        }
+
         [HttpGet(nameof(ListAllEndpoints))]
         public async Task<IActionResult> ListAllEndpoints()
         {

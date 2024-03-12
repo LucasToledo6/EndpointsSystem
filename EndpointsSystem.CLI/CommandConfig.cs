@@ -2,6 +2,6 @@
 {
     public class CommandConfig
     {
-        public const string ApiUrl = "https://localhost:7006";
+        public const string ApiUrl = "https://localhost:7252";
     }
 }

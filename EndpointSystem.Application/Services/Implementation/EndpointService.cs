@@ -35,6 +35,15 @@ namespace EndpointSystem.Application.Services.Implementation
             await _endpointRepository.SaveAsync();
         }
 
+        public async Task<EndpointDto> FindEndpoint(string endpointSerialNumber)
+        {
+            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber!);
+
+            var foundEndpoint = _mapper.Map<EndpointDto>(existingEndpoint);
+
+            return foundEndpoint;
+        }
+
         public async Task<List<EndpointDto>> ListAllEndpoints()
         {
             List<EndpointDto> endpointList = (await _endpointRepository.GetAllEndpoints())
