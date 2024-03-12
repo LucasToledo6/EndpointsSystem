@@ -8,5 +8,10 @@ namespace EndpointsSystem.Data
         public EndpointDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions) { }
 
         public DbSet<Endpoint> Endpoints { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            options.UseInMemoryDatabase("EndpointsDatabase");
+        }
     }
 }
