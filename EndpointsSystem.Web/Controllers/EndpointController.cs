@@ -66,6 +66,25 @@ namespace EndpointsSystem.Web.Controllers
             }
         }
 
+        [HttpDelete("DeleteEndpoint/{endpointSerialNumber}")]
+        public async Task<IActionResult> DeleteEndpoint([FromRoute] string endpointSerialNumber)
+        {
+            try
+            {
+                await _endpointService.DeleteEndpoint(endpointSerialNumber);
+                Console.WriteLine();
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unknown error has occurred.");
+            }
+        }
+
         [HttpGet("FindEndpoint/{endpointSerialNumber}")]
         public async Task<IActionResult> FindEndpoint([FromRoute] string endpointSerialNumber)
         {

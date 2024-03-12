@@ -8,6 +8,7 @@ namespace EndpointSystem.Application.Services.Interfaces
     {
         public Task CreateEndpoint(CreateEndpointInput createEndpointInput);
         public Task EditEndpoint(string endpointSerialNumber, ESwitchState switchState);
+        public Task DeleteEndpoint(string endpointSerialNumber);
         public Task<EndpointDto> FindEndpoint(string endpointSerialNumber);
         public Task<List<EndpointDto>> ListAllEndpoints();
     }

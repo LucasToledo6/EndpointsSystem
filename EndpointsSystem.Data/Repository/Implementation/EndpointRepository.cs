@@ -23,9 +23,10 @@ namespace EndpointsSystem.Data.Repository.Implementation
             _db.Endpoints.Update(endpoint);
         }
 
-        //public void Delete()
-        //{
-        //}
+        public async Task Delete(Endpoint endpoint)
+        {
+            _db.Endpoints.Remove(endpoint);
+        }
 
         public async Task<Endpoint?> GetEndpointBySerialNumberAsync(string endpointSerialNumber)
         {

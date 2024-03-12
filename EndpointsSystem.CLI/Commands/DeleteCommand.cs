@@ -12,7 +12,7 @@ namespace EndpointsSystem.CLI.Commands
         {
             string endpointSerialNumber = ReadEndpointSerialNumber();
 
-            var findEndpointResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/{endpointSerialNumber}");
+            var findEndpointResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/FindEndpoint/{endpointSerialNumber}");
             if (!findEndpointResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine("Endpoint was not found.");
@@ -26,7 +26,7 @@ namespace EndpointsSystem.CLI.Commands
                 return;
             }
 
-            var deleteEndpointResponse = await _client.DeleteAsync($"{CommandConfig.ApiUrl}/api/Endpoint/{endpointSerialNumber}");
+            var deleteEndpointResponse = await _client.DeleteAsync($"{CommandConfig.ApiUrl}/api/Endpoint/DeleteEndpoint/{endpointSerialNumber}");
             if (!deleteEndpointResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine("The endpoint could not be deleted.");

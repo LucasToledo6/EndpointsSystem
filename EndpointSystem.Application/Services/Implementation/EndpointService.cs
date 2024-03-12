@@ -5,6 +5,7 @@ using EndpointsSystem.Domain.Enums;
 using EndpointSystem.Application.DTO;
 using EndpointSystem.Application.Input.Model;
 using EndpointSystem.Application.Services.Interfaces;
+using System.Net.Http.Headers;
 
 namespace EndpointSystem.Application.Services.Implementation
 {
@@ -46,9 +47,17 @@ namespace EndpointSystem.Application.Services.Implementation
             await _endpointRepository.SaveAsync();
         }
 
-        public async Task<EndpointDto> FindEndpoint(string endpointSerialNumber)
+        public async Task DeleteEndpoint(string endpointSerialNumber)
         {
             var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber!);
+
+            await _endpointRepository.Delete(existingEndpoint!);
+            await _endpointRepository.SaveAsync();
+        }
+
+        public async Task<EndpointDto> FindEndpoint(string endpointSerialNumber)
+        {
+            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber!) ?? throw new Exception("The endpoint was not found.");
 
             var foundEndpoint = _mapper.Map<EndpointDto>(existingEndpoint);
 
