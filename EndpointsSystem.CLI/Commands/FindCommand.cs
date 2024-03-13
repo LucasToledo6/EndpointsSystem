@@ -1,4 +1,5 @@
-﻿using EndpointsSystem.CLI.Commands.Base;
+﻿using ANSIConsole;
+using EndpointsSystem.CLI.Commands.Base;
 using EndpointsSystem.CLI.Commands.Enums;
 using EndpointsSystem.CLI.Commands.Outputs;
 using System.Text.Json;
@@ -9,7 +10,7 @@ namespace EndpointsSystem.CLI.Commands
     {
         public override EEndpointCommands Id => EEndpointCommands.FindCommand;
 
-        public override string Description => "Find a endpoint by serial number";
+        public override string Description => "Find".Underlined() + " a endpoint by serial number";
 
         public override async Task ExecuteCommand()
         {
@@ -20,7 +21,7 @@ namespace EndpointsSystem.CLI.Commands
             if (!findEndpointResponse.IsSuccessStatusCode)
             {
                 var errorContent = await findEndpointResponse.Content.ReadAsStringAsync();
-                Console.WriteLine($"{errorContent}");
+                Console.WriteLine($"{errorContent}".Color("Red"));
                 return;
             }
 
@@ -31,11 +32,11 @@ namespace EndpointsSystem.CLI.Commands
             });
 
             // Display the endpoint information
-            Console.WriteLine($"Endpoint Serial Number: {endpointFound.EndpointSerialNumber}");
-            Console.WriteLine($"Meter Model ID: {endpointFound.MeterModelId}");
-            Console.WriteLine($"Meter Number: {endpointFound.MeterNumber}");
-            Console.WriteLine($"Meter Firmware Version: {endpointFound.MeterFirmwareVersion}");
-            Console.WriteLine($"Switch State: {endpointFound.SwitchState}");
+            Console.WriteLine("Endpoint Serial Number".Color("Lightgreen") + $": {endpointFound.EndpointSerialNumber}");
+            Console.WriteLine("Meter Model ID".Color("Lightgreen") + $": {endpointFound.MeterModelId}");
+            Console.WriteLine("Meter Number".Color("Lightgreen") + $": {endpointFound.MeterNumber}");
+            Console.WriteLine("Meter Firmware Version".Color("Lightgreen") + $": {endpointFound.MeterFirmwareVersion}");
+            Console.WriteLine("Switch State".Color("Lightgreen") + $": {endpointFound.SwitchState}");
         }
     }
 }

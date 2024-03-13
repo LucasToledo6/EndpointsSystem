@@ -1,4 +1,5 @@
-﻿using EndpointsSystem.CLI.Commands.Enums;
+﻿using ANSIConsole;
+using EndpointsSystem.CLI.Commands.Enums;
 using System.Net.Http.Headers;
 
 namespace EndpointsSystem.CLI.Commands.Base
@@ -25,7 +26,7 @@ namespace EndpointsSystem.CLI.Commands.Base
 
             if (string.IsNullOrEmpty(input))
             {
-                Console.WriteLine("Please, enter a valid input.");
+                Console.WriteLine("Please, enter a valid input:");
                 return CheckString();
             }
 
@@ -40,7 +41,7 @@ namespace EndpointsSystem.CLI.Commands.Base
 
             if (!hasParsed)
             {
-                Console.WriteLine("Please, enter a valid input.");
+                Console.WriteLine("Please, enter a valid input:");
                 return CheckInt();
             }
 
@@ -49,16 +50,10 @@ namespace EndpointsSystem.CLI.Commands.Base
 
         protected string ReadEndpointSerialNumber()
         {
-            Console.WriteLine("Please, enter the serial number.");
+            Console.WriteLine("Please, enter the " + "serial number:".Color("Blue").Bold());
             string endpointSerialNumber = CheckString();
+            Console.WriteLine();
             return endpointSerialNumber;
-        }
-
-        protected string ReadConfirmation()
-        {
-            Console.WriteLine("Are you sure you want to delete this endpoint? (y/n)");
-            string confirmation = CheckString();
-            return confirmation;
         }
     }
 }

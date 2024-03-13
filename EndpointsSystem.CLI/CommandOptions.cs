@@ -1,4 +1,5 @@
-﻿using EndpointsSystem.CLI.Commands.Base;
+﻿using ANSIConsole;
+using EndpointsSystem.CLI.Commands.Base;
 using EndpointsSystem.CLI.Commands.Enums;
 using System.Reflection;
 
@@ -26,7 +27,7 @@ namespace EndpointsSystem.CLI
         {
             foreach (var command in commands.OrderBy(x => x.Id))
             {
-                Console.WriteLine($"{(int)command.Id}) {command.Description}");
+                Console.WriteLine($"{(int)command.Id})".Color("Green").Bold() + $" {command.Description}");
             }
         }
 

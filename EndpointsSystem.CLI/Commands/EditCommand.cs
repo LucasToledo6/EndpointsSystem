@@ -1,4 +1,5 @@
-﻿using EndpointsSystem.CLI.Commands.Base;
+﻿using ANSIConsole;
+using EndpointsSystem.CLI.Commands.Base;
 using EndpointsSystem.CLI.Commands.Enums;
 using EndpointsSystem.CLI.Commands.Extensions;
 using EndpointsSystem.CLI.Commands.Inputs;
@@ -10,7 +11,7 @@ namespace EndpointsSystem.CLI.Commands
     {
         public override EEndpointCommands Id => EEndpointCommands.EditCommand;
 
-        public override string Description => "Edit an existing endpoint";
+        public override string Description => "Edit".Underlined() + " an existing endpoint";
 
         public override async Task ExecuteCommand()
         {
@@ -28,11 +29,11 @@ namespace EndpointsSystem.CLI.Commands
             if (!editEndpointResponse.IsSuccessStatusCode)
             {
                 var errorContent = await editEndpointResponse.Content.ReadAsStringAsync();
-                Console.WriteLine($"{errorContent}");
+                Console.WriteLine($"{errorContent}".Color("Red"));
                 return;
             }
 
-            Console.WriteLine("Endpoint edited successfully.");
+            Console.WriteLine("Endpoint edited successfully.".Color("Lightgreen"));
         }
 
         private ESwitchState ReadNewSwitchState()
@@ -41,17 +42,19 @@ namespace EndpointsSystem.CLI.Commands
 
             do
             {
-                Console.WriteLine("Please, enter the new meter switch state.");
-                Console.WriteLine("The available states are:");
+                Console.WriteLine("Please, enter the " + "new meter switch state:".Color("Blue").Bold());
+                Console.WriteLine("The " + "available states".Color("Blue").Bold() + " are:");
 
                 foreach (var state in SwitchStateExtensions.GetSwitchStates())
                 {
-                    Console.WriteLine($"{(int)state}) {state}");
+                    Console.WriteLine($"{(int)state})".Color("Blue").Bold() + $" {state}");
                 }
 
                 switchState = CheckInt();
 
             } while (!SwitchStateExtensions.IsSwitchStateValid(switchState));
+
+            Console.WriteLine();
 
             return (ESwitchState)switchState;
         }
