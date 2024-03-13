@@ -15,14 +15,6 @@ namespace EndpointsSystem.CLI.Commands
         {
             string endpointSerialNumber = ReadEndpointSerialNumber();
 
-            var findEndpointResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/FindEndpoint/{endpointSerialNumber}");
-            if (!findEndpointResponse.IsSuccessStatusCode)
-            {
-                var errorContent = await findEndpointResponse.Content.ReadAsStringAsync();
-                Console.WriteLine($"{errorContent}");
-                return;
-            }
-
             ESwitchState newSwitchState = ReadNewSwitchState();
             var editEndpointResponse = await _client.PutAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/EditEndpoint/{endpointSerialNumber}", newSwitchState);
             if (!editEndpointResponse.IsSuccessStatusCode)

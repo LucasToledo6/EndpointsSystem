@@ -5,7 +5,6 @@ using EndpointsSystem.Domain.Enums;
 using EndpointSystem.Application.DTO;
 using EndpointSystem.Application.Input.Model;
 using EndpointSystem.Application.Services.Interfaces;
-using System.Net.Http.Headers;
 
 namespace EndpointSystem.Application.Services.Implementation
 {
@@ -39,9 +38,14 @@ namespace EndpointSystem.Application.Services.Implementation
 
         public async Task EditEndpoint(string endpointSerialNumber, ESwitchState switchState)
         {
-            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber!);
+            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber);
 
-            if (existingEndpoint!.SwitchState == switchState)
+            if (existingEndpoint == null)
+            {
+                throw new ArgumentException("The endpoint was not found.");
+            }
+            
+            if (existingEndpoint.SwitchState == switchState)
             {
                 throw new ArgumentException("The new switch state is the same as the current switch state. No changes made.");
             }
@@ -54,15 +58,20 @@ namespace EndpointSystem.Application.Services.Implementation
 
         public async Task DeleteEndpoint(string endpointSerialNumber)
         {
-            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber!);
+            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber);
 
-            await _endpointRepository.Delete(existingEndpoint!);
+            if (existingEndpoint == null)
+            {
+                throw new ArgumentException("The endpoint was not found.");
+            }
+
+            await _endpointRepository.Delete(existingEndpoint);
             await _endpointRepository.SaveAsync();
         }
 
         public async Task<EndpointDto> FindEndpoint(string endpointSerialNumber)
         {
-            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber!) ?? throw new ArgumentException("The endpoint was not found.");
+            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber) ?? throw new ArgumentException("The endpoint was not found.");
 
             var foundEndpoint = _mapper.Map<EndpointDto>(existingEndpoint);
 
@@ -71,10 +80,11 @@ namespace EndpointSystem.Application.Services.Implementation
 
         public async Task<List<EndpointDto>> ListAllEndpoints()
         {
-            List<EndpointDto> endpointList = (await _endpointRepository.GetAllEndpoints())
-                .Select(x => _mapper.Map<EndpointDto>(x)).ToList();
+            List<Endpoint> endpointList = await _endpointRepository.GetAllEndpoints();
 
-            return endpointList;
+            var endpointDtoList = _mapper.Map<List<EndpointDto>>(endpointList);
+
+            return endpointDtoList;
         }
     }
 }
