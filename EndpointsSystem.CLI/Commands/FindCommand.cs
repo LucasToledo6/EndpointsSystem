@@ -20,8 +20,9 @@ namespace EndpointsSystem.CLI.Commands
             
             if (!findEndpointResponse.IsSuccessStatusCode)
             {
-                var errorContent = await findEndpointResponse.Content.ReadAsStringAsync();
-                Console.WriteLine($"{errorContent}".Color("Red"));
+                var errorContentJson = await findEndpointResponse.Content.ReadAsStringAsync();
+                var errorContent = JsonSerializer.Deserialize<string>(errorContentJson);
+                Console.WriteLine(errorContent.Color("Red"));
                 return;
             }
 

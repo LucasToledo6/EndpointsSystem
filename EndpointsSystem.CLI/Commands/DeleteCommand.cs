@@ -1,6 +1,7 @@
 ﻿using ANSIConsole;
 using EndpointsSystem.CLI.Commands.Base;
 using EndpointsSystem.CLI.Commands.Enums;
+using System.Text.Json;
 
 namespace EndpointsSystem.CLI.Commands
 {
@@ -25,9 +26,10 @@ namespace EndpointsSystem.CLI.Commands
             
             if (!deleteEndpointResponse.IsSuccessStatusCode)
             {
-                var errorContent = await deleteEndpointResponse.Content.ReadAsStringAsync();
-                Console.WriteLine($"{errorContent}".Color("Red"));
-                return; 
+                var errorContentJson = await deleteEndpointResponse.Content.ReadAsStringAsync();
+                var errorContent = JsonSerializer.Deserialize<string>(errorContentJson);
+                Console.WriteLine(errorContent.Color("Red"));
+                return;
             }
 
             Console.WriteLine("Endpoint successfully deleted.".Color("Lightgreen"));

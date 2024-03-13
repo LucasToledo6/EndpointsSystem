@@ -4,6 +4,7 @@ using EndpointsSystem.CLI.Commands.Enums;
 using EndpointsSystem.CLI.Commands.Extensions;
 using EndpointsSystem.CLI.Commands.Inputs;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace EndpointsSystem.CLI.Commands
 {
@@ -29,8 +30,9 @@ namespace EndpointsSystem.CLI.Commands
             // Focused on trying to give user friendly exception messages
             if (!createEndpointResponse.IsSuccessStatusCode)
             {
-                var errorContent = await createEndpointResponse.Content.ReadAsStringAsync();
-                Console.WriteLine($"{errorContent}".Color("Red"));
+                var errorContentJson = await createEndpointResponse.Content.ReadAsStringAsync();
+                var errorContent = JsonSerializer.Deserialize<string>(errorContentJson);
+                Console.WriteLine(errorContent.Color("Red"));
                 return;
             }
 
