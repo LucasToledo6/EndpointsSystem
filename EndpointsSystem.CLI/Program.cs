@@ -1,6 +1,6 @@
 ﻿using EndpointsSystem.CLI;
 
-CommandOptions commandOptions = new CommandOptions();
+CommandOptions commandOptions = new();
 var commands = commandOptions.InitCommands();
 
 while (true)
@@ -10,13 +10,16 @@ while (true)
     if (input == null)
     {
         Console.WriteLine("The input was not recognized as a valid command.");
-        Console.WriteLine("Press any key to continue.");
-        Console.ReadKey();
-        Console.Clear();
+        PromptToContinue();
         continue;
     }
 
     await commandOptions.ExecuteCommand(commands, input);
+    PromptToContinue();
+}
+
+static void PromptToContinue()
+{
     Console.WriteLine("Press any key to continue.");
     Console.ReadKey();
     Console.Clear();

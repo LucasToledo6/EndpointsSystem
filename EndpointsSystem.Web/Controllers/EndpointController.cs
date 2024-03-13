@@ -92,6 +92,10 @@ namespace EndpointsSystem.Web.Controllers
             {
                 return Ok(await _endpointService.FindEndpoint(endpointSerialNumber!));
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unknown error has occurred.");

@@ -43,5 +43,19 @@ namespace EndpointsSystem.CLI.Commands.Base
 
             return parsed;
         }
+
+        protected string ReadEndpointSerialNumber()
+        {
+            Console.WriteLine("Please, enter the serial number.");
+            string endpointSerialNumber = CheckString();
+            return endpointSerialNumber;
+        }
+
+        protected string ReadConfirmation()
+        {
+            Console.WriteLine("Are you sure you want to delete this endpoint? (y/n)");
+            string confirmation = CheckString();
+            return confirmation;
+        }
     }
 }

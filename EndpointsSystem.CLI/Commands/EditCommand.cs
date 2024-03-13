@@ -18,7 +18,8 @@ namespace EndpointsSystem.CLI.Commands
             var findEndpointResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/FindEndpoint/{endpointSerialNumber}");
             if (!findEndpointResponse.IsSuccessStatusCode)
             {
-                Console.WriteLine("Endpoint was not found.");
+                var errorContent = await findEndpointResponse.Content.ReadAsStringAsync();
+                Console.WriteLine($"{errorContent}");
                 return;
             }
 
@@ -26,18 +27,12 @@ namespace EndpointsSystem.CLI.Commands
             var editEndpointResponse = await _client.PutAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/EditEndpoint/{endpointSerialNumber}", newSwitchState);
             if (!editEndpointResponse.IsSuccessStatusCode)
             {
-                Console.WriteLine("The endpoint could not be edited.");
+                var errorContent = await editEndpointResponse.Content.ReadAsStringAsync();
+                Console.WriteLine($"{errorContent}");
                 return;
             }
 
             Console.WriteLine("Endpoint edited successfully.");
-        }
-
-        private string ReadEndpointSerialNumber()
-        {
-            Console.WriteLine("Please, enter the serial number.");
-            string endpointSerialNumber = CheckString();
-            return endpointSerialNumber;
         }
 
         private ESwitchState ReadNewSwitchState()

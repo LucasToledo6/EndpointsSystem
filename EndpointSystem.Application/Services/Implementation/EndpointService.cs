@@ -41,6 +41,11 @@ namespace EndpointSystem.Application.Services.Implementation
         {
             var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber!);
 
+            if (existingEndpoint!.SwitchState == switchState)
+            {
+                throw new ArgumentException("The new switch state is the same as the current switch state. No changes made.");
+            }
+
             existingEndpoint!.SwitchState = switchState;
 
             await _endpointRepository.Update(existingEndpoint);
@@ -57,7 +62,7 @@ namespace EndpointSystem.Application.Services.Implementation
 
         public async Task<EndpointDto> FindEndpoint(string endpointSerialNumber)
         {
-            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber!) ?? throw new Exception("The endpoint was not found.");
+            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber!) ?? throw new ArgumentException("The endpoint was not found.");
 
             var foundEndpoint = _mapper.Map<EndpointDto>(existingEndpoint);
 

@@ -27,18 +27,12 @@ namespace EndpointsSystem.CLI.Commands
 
             if (!createEndpointResponse.IsSuccessStatusCode)
             {
-                Console.WriteLine("An error has occurred.");
+                var errorContent = await createEndpointResponse.Content.ReadAsStringAsync();
+                Console.WriteLine($"{errorContent}");
                 return;
             }
 
             Console.WriteLine("Endpoint created successfully.");
-        }
-
-        private string ReadEndpointSerialNumber()
-        {
-            Console.WriteLine("Please, enter the serial number.");
-            string endpointSerialNumber = CheckString();
-            return endpointSerialNumber;
         }
 
         private EMeterModelId ReadMeterModelId()

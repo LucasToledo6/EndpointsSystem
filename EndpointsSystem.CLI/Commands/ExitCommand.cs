@@ -22,12 +22,5 @@ namespace EndpointsSystem.CLI.Commands
             Console.WriteLine("Exiting...");
             Environment.Exit(0);
         }
-
-        private string ReadConfirmation()
-        {
-            Console.WriteLine("Are you sure you want to exit the application? (y/N)");
-            string confirmation = CheckString();
-            return confirmation;
-        }
     }
 }

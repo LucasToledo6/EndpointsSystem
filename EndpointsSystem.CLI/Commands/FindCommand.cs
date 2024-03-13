@@ -18,7 +18,8 @@ namespace EndpointsSystem.CLI.Commands
             var findEndpointResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/FindEndpoint/{endpointSerialNumber}");
             if (!findEndpointResponse.IsSuccessStatusCode)
             {
-                Console.WriteLine("Endpoint was not found.");
+                var errorContent = await findEndpointResponse.Content.ReadAsStringAsync();
+                Console.WriteLine($"{errorContent}");
                 return;
             }
 
@@ -28,24 +29,12 @@ namespace EndpointsSystem.CLI.Commands
                 PropertyNameCaseInsensitive = true
             });
 
-            if (endpointFound == null)
-            {
-                Console.WriteLine("Failed to extract the endpoint information.");
-                return;
-            }
             // Display the endpoint information
             Console.WriteLine($"Endpoint Serial Number: {endpointFound.EndpointSerialNumber}");
             Console.WriteLine($"Meter Model ID: {endpointFound.MeterModelId}");
             Console.WriteLine($"Meter Number: {endpointFound.MeterNumber}");
             Console.WriteLine($"Meter Firmware Version: {endpointFound.MeterFirmwareVersion}");
             Console.WriteLine($"Switch State: {endpointFound.SwitchState}");
-        }
-
-        private string ReadEndpointSerialNumber()
-        {
-            Console.WriteLine("Please, enter the serial number.");
-            string endpointSerialNumber = CheckString();
-            return endpointSerialNumber;
         }
     }
 }

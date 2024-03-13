@@ -10,7 +10,7 @@ namespace EndpointsSystem.CLI
         {
             var commandsTypes = Assembly.GetExecutingAssembly().GetTypes().Where(x => !x.IsAbstract && x.IsSubclassOf(typeof(BaseCommand)));
 
-            HashSet<BaseCommand> baseCommands = new HashSet<BaseCommand>();
+            HashSet<BaseCommand> baseCommands = [];
             foreach (var commandType in commandsTypes)
             {
                 var command = Activator.CreateInstance(commandType) as BaseCommand;
