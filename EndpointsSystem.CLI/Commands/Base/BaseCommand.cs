@@ -5,9 +5,9 @@ namespace EndpointsSystem.CLI.Commands.Base
 {
     public abstract class BaseCommand
     {
-        protected HttpClient _client;
         public abstract EEndpointCommands Id { get; }
         public abstract string Description { get; }
+        protected HttpClient _client;
 
         public BaseCommand()
         {
@@ -15,8 +15,10 @@ namespace EndpointsSystem.CLI.Commands.Base
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        // Abstract method for executing each command
         public abstract Task ExecuteCommand();
 
+        // Validates string user input
         public string CheckString()
         {
             string input = Console.ReadLine();
@@ -30,6 +32,7 @@ namespace EndpointsSystem.CLI.Commands.Base
             return input;
         }
 
+        // Validates int user input
         public int CheckInt()
         {
             string input = Console.ReadLine();

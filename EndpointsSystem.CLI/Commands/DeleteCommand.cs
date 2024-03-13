@@ -11,8 +11,9 @@ namespace EndpointsSystem.CLI.Commands
         public override async Task ExecuteCommand()
         {
             string endpointSerialNumber = ReadEndpointSerialNumber();
-
             string confirmation = ReadConfirmation();
+
+            // Focused on trying to reduce the likelihood of accidental data loss or other unintended consequences
             if (!confirmation.Equals("y", StringComparison.CurrentCultureIgnoreCase))
             {
                 Console.WriteLine("Deletion command aborted.");
@@ -20,6 +21,7 @@ namespace EndpointsSystem.CLI.Commands
             }
 
             var deleteEndpointResponse = await _client.DeleteAsync($"{CommandConfig.ApiUrl}/api/Endpoint/DeleteEndpoint/{endpointSerialNumber}");
+            
             if (!deleteEndpointResponse.IsSuccessStatusCode)
             {
                 var errorContent = await deleteEndpointResponse.Content.ReadAsStringAsync();

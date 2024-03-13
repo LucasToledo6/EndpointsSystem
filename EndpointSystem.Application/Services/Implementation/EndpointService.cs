@@ -30,6 +30,8 @@ namespace EndpointSystem.Application.Services.Implementation
                 throw new ArgumentException("An endpoint already exists with this serial number.");
             }
 
+            // Using AutoMapper to automate the mapping of one object to another
+            // Map properties from an instance of createEndpointInput to a new instance of Endpoint
             var endpoint = _mapper.Map<Endpoint>(createEndpointInput);
 
             await _endpointRepository.Create(endpoint);
@@ -73,6 +75,7 @@ namespace EndpointSystem.Application.Services.Implementation
         {
             var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber) ?? throw new ArgumentException("The endpoint was not found.");
 
+            // Using a DTO to further decouple presentation from the service layer and the domain model
             var foundEndpoint = _mapper.Map<EndpointDto>(existingEndpoint);
 
             return foundEndpoint;

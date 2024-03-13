@@ -7,6 +7,7 @@ while (true)
 {
     commandOptions.ListAllCommands(commands);
     var input = commandOptions.ReadInput();
+    
     if (input == null)
     {
         Console.WriteLine("The input was not recognized as a valid command.");

@@ -25,6 +25,7 @@ namespace EndpointsSystem.CLI.Commands
 
             var createEndpointResponse = await _client.PostAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/CreateEndpoint", createCommandEndpointInput);
 
+            // Focused on trying to give user friendly exception messages
             if (!createEndpointResponse.IsSuccessStatusCode)
             {
                 var errorContent = await createEndpointResponse.Content.ReadAsStringAsync();
@@ -43,11 +44,15 @@ namespace EndpointsSystem.CLI.Commands
             {
                 Console.WriteLine("Please, enter the meter model ID.");
                 Console.WriteLine("The available IDs are:");
+
+                // Using a Extension class to list and validates all Meter Model IDs
                 foreach (var id in MeterModelIdExtensions.GetMeterModelIds())
                 {
                     Console.WriteLine($"{(int)id}) {id}");
                 }
+
                 meterModelId = CheckInt();
+
             } while (!MeterModelIdExtensions.IsMeterModelIdValid(meterModelId));
 
             return (EMeterModelId)meterModelId;
@@ -75,11 +80,15 @@ namespace EndpointsSystem.CLI.Commands
             {
                 Console.WriteLine("Enter the meter switch state.");
                 Console.WriteLine("The available states are:");
+
+                // Same principle as the Meter Model IDs
                 foreach (var state in SwitchStateExtensions.GetSwitchStates())
                 {
                     Console.WriteLine($"{(int)state}) {state}");
                 }
+
                 switchState = CheckInt();
+
             } while (!SwitchStateExtensions.IsSwitchStateValid(switchState));
 
             return (ESwitchState) switchState;

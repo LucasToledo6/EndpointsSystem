@@ -29,6 +29,7 @@ namespace EndpointsSystem.Web.Controllers
         {
             try
             {
+                // Server-side validation
                 var validation = _createEndpointInputValidator.Validate(createCommandInput);
 
                 if (!validation.IsValid)
@@ -40,11 +41,11 @@ namespace EndpointsSystem.Web.Controllers
                 Console.WriteLine();
                 return Ok();
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException ex) //for expected errors
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception)
+            catch (Exception) //for unexpected errors
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unknown error has occurred.");
             }

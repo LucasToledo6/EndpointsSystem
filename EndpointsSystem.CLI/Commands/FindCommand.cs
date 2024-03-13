@@ -14,8 +14,9 @@ namespace EndpointsSystem.CLI.Commands
         public override async Task ExecuteCommand()
         {
             string endpointSerialNumber = ReadEndpointSerialNumber();
-
+            
             var findEndpointResponse = await _client.GetAsync($"{CommandConfig.ApiUrl}/api/Endpoint/FindEndpoint/{endpointSerialNumber}");
+            
             if (!findEndpointResponse.IsSuccessStatusCode)
             {
                 var errorContent = await findEndpointResponse.Content.ReadAsStringAsync();

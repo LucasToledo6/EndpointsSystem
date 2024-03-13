@@ -15,7 +15,6 @@ namespace EndpointsSystem.CLI.Commands
         public override async Task ExecuteCommand()
         {
             string endpointSerialNumber = ReadEndpointSerialNumber();
-
             ESwitchState newSwitchState = ReadNewSwitchState();
 
             EditCommandInput editCommandInput = new EditCommandInput
@@ -25,6 +24,7 @@ namespace EndpointsSystem.CLI.Commands
             };
 
             var editEndpointResponse = await _client.PutAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/EditEndpoint/{endpointSerialNumber}", editCommandInput);
+            
             if (!editEndpointResponse.IsSuccessStatusCode)
             {
                 var errorContent = await editEndpointResponse.Content.ReadAsStringAsync();
@@ -43,11 +43,14 @@ namespace EndpointsSystem.CLI.Commands
             {
                 Console.WriteLine("Please, enter the new meter switch state.");
                 Console.WriteLine("The available states are:");
+
                 foreach (var state in SwitchStateExtensions.GetSwitchStates())
                 {
                     Console.WriteLine($"{(int)state}) {state}");
                 }
+
                 switchState = CheckInt();
+
             } while (!SwitchStateExtensions.IsSwitchStateValid(switchState));
 
             return (ESwitchState)switchState;

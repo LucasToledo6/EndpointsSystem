@@ -10,10 +10,10 @@ using EndpointSystem.Application.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddScoped<IEndpointService, EndpointService>();
 
-// Add validators to the container.
+// Add validators to the container
 builder.Services.AddScoped<IValidator<CreateEndpointInput>, CreateEndpointInputValidator>();
 builder.Services.AddScoped<IValidator<EditEndpointInput>, EditEndpointInputValidator>();
 
@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
