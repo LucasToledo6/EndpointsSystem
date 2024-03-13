@@ -36,21 +36,21 @@ namespace EndpointSystem.Application.Services.Implementation
             await _endpointRepository.SaveAsync();
         }
 
-        public async Task EditEndpoint(string endpointSerialNumber, ESwitchState switchState)
+        public async Task EditEndpoint(EditEndpointInput editCommandInput)
         {
-            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(endpointSerialNumber);
+            var existingEndpoint = await _endpointRepository.GetEndpointBySerialNumberAsync(editCommandInput.EndpointSerialNumber!);
 
             if (existingEndpoint == null)
             {
                 throw new ArgumentException("The endpoint was not found.");
             }
             
-            if (existingEndpoint.SwitchState == switchState)
+            if (existingEndpoint.SwitchState == editCommandInput.SwitchState)
             {
                 throw new ArgumentException("The new switch state is the same as the current switch state. No changes made.");
             }
 
-            existingEndpoint!.SwitchState = switchState;
+            existingEndpoint!.SwitchState = editCommandInput.SwitchState;
 
             await _endpointRepository.Update(existingEndpoint);
             await _endpointRepository.SaveAsync();

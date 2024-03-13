@@ -1,6 +1,7 @@
 ﻿using EndpointsSystem.CLI.Commands.Base;
 using EndpointsSystem.CLI.Commands.Enums;
 using EndpointsSystem.CLI.Commands.Extensions;
+using EndpointsSystem.CLI.Commands.Inputs;
 using System.Net.Http.Json;
 
 namespace EndpointsSystem.CLI.Commands
@@ -16,7 +17,14 @@ namespace EndpointsSystem.CLI.Commands
             string endpointSerialNumber = ReadEndpointSerialNumber();
 
             ESwitchState newSwitchState = ReadNewSwitchState();
-            var editEndpointResponse = await _client.PutAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/EditEndpoint/{endpointSerialNumber}", newSwitchState);
+
+            EditCommandInput editCommandInput = new EditCommandInput
+            {
+                EndpointSerialNumber = endpointSerialNumber,
+                SwitchState = newSwitchState
+            };
+
+            var editEndpointResponse = await _client.PutAsJsonAsync($"{CommandConfig.ApiUrl}/api/Endpoint/EditEndpoint/{endpointSerialNumber}", editCommandInput);
             if (!editEndpointResponse.IsSuccessStatusCode)
             {
                 var errorContent = await editEndpointResponse.Content.ReadAsStringAsync();

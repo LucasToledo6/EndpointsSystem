@@ -15,6 +15,7 @@ builder.Services.AddScoped<IEndpointService, EndpointService>();
 
 // Add validators to the container.
 builder.Services.AddScoped<IValidator<CreateEndpointInput>, CreateEndpointInputValidator>();
+builder.Services.AddScoped<IValidator<EditEndpointInput>, EditEndpointInputValidator>();
 
 // Add databases and repositories
 builder.Services.AddDbContext<EndpointDbContext>();

@@ -11,13 +11,16 @@ namespace EndpointsSystem.Web.Controllers
     public class EndpointController : ControllerBase
     {
         private readonly IValidator<CreateEndpointInput> _createEndpointInputValidator;
+        private readonly IValidator<EditEndpointInput> _editEndpointInputValidator;
         private readonly IEndpointService _endpointService;
 
         public EndpointController(
             IValidator<CreateEndpointInput> createEndpointInputValidator,
+            IValidator<EditEndpointInput> editEndpointInputValidator,
             IEndpointService endpointService)
         {
             _createEndpointInputValidator = createEndpointInputValidator;
+            _editEndpointInputValidator = editEndpointInputValidator;
             _endpointService = endpointService;
         }
 
@@ -48,11 +51,18 @@ namespace EndpointsSystem.Web.Controllers
         }
 
         [HttpPut("EditEndpoint/{endpointSerialNumber}")]
-        public async Task<IActionResult> EditEndpoint([FromRoute] string endpointSerialNumber, [FromBody] ESwitchState switchState)
+        public async Task<IActionResult> EditEndpoint([FromRoute] string endpointSerialNumber, [FromBody] EditEndpointInput editEndpointInput)
         {
             try
             {
-                await _endpointService.EditEndpoint(endpointSerialNumber, switchState);
+                var validation = _editEndpointInputValidator.Validate(editEndpointInput);
+
+                if (!validation.IsValid)
+                {
+                    throw new ArgumentException("The edited endpoint data was invalid.");
+                }
+
+                await _endpointService.EditEndpoint(editEndpointInput);
                 Console.WriteLine();
                 return Ok();
             }
